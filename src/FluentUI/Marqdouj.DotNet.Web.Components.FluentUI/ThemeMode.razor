@@ -1,0 +1,38 @@
+﻿<FluentDesignTheme @bind-Mode="@options.Mode"
+                   @bind-OfficeColor="@options.Color"
+                   OnLoaded="OnLoaded"
+                   StorageName="@options.StorageName" />
+@if (loaded)
+{
+    <FluentSelect Label="@options.Label"
+                  Height="@options.Height"
+                  Width="@options.Width"
+                  AriaLabel="@options.AriaLabel"
+                  Items="@modes"
+                  @bind-SelectedOption="@options.Mode" />
+}
+
+@code {
+    private ThemeOptions options = new();
+    private DesignThemeModes[] modes = Enum.GetValues<DesignThemeModes>();
+
+    //Helps prevent flicker of displaying mode
+    private bool loaded;
+    private bool notLoaded => !loaded;
+
+    [Parameter]
+    public ThemeOptions? Options { get; set; }
+
+    void OnLoaded(LoadedEventArgs e)
+    {
+        loaded = true;
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (Options is null)
+            return;
+
+        options = Options;
+    }
+}

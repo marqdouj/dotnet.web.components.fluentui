@@ -1,0 +1,49 @@
+﻿<FluentDesignTheme @bind-Mode="@Mode"
+                   @bind-OfficeColor="@OfficeColor"
+                   OnLoaded="@OnLoaded"
+                   StorageName="@StorageName" />
+
+<FluentButton Appearance="@Appearance"
+              IconStart="@Icon"
+              OnClick="@SwitchTheme"
+              Title="@Title" />
+
+@code {
+    public DesignThemeModes Mode { get; set; }
+
+    public OfficeColor? OfficeColor { get; set; }
+
+    [Parameter]
+    public Appearance Appearance { get; set; } = Appearance.Accent;
+
+    [Parameter]
+    public Icon Icon { get; set; } = new Icons.Regular.Size20.DarkTheme();
+
+    [Parameter]
+    public string StorageName { get; set; } = "theme";
+
+    [Parameter]
+    public string Title { get; set; } = "Theme";
+
+    private bool _isDark = false;
+
+    void OnLoaded(LoadedEventArgs e)
+    {
+        IsDark = e.IsDark;
+    }
+
+    public bool IsDark
+    {
+        get => _isDark = (Mode == DesignThemeModes.Dark) ? true : false;
+        set
+        {
+            _isDark = value;
+            Mode = _isDark ? DesignThemeModes.Dark : DesignThemeModes.Light;
+        }
+    }
+
+    private void SwitchTheme()
+    {
+        Mode = Mode != DesignThemeModes.Dark ? DesignThemeModes.Dark : DesignThemeModes.Light;
+    }
+}

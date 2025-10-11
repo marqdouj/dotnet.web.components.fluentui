@@ -1,0 +1,97 @@
+﻿<UIInput Model="@Model" Options="@options">
+    <Content>
+        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+            @if (options?.ColorPosition == UIInputColorPosition.Left)
+            {
+                <div style="@selectedColorStyle" />
+            }
+            <FluentSelect Id="@cssId" 
+                          Items="@colors"
+                          TOption="Option<string>"
+                          OptionText="@(i => i.Text)"
+                          OptionValue="@(i => i.Value)"
+                          Appearance="@selectOptions.Appearance"
+                          AriaLabel="@selectOptions.AriaLabel"
+                          Class="@selectOptions.Class"
+                          Disabled="@selectOptions.Disabled"
+                          Height="@height"
+                          Placeholder="@selectOptions.Placeholder"
+                          Position="@selectOptions.Position"
+                          ReadOnly="@ReadOnly"
+                          Required="@selectOptions.Required"
+                          Style="@selectOptions.Style"
+                          Width="@width"
+                          @bind-Value="@Model.BindValue">
+                <OptionTemplate>
+                    <FluentStack>
+                        @if (!string.IsNullOrWhiteSpace(context.Value))
+                        {
+                            <div style="@($"height:1rem;width:1rem;border: solid 1px black;background-color:{context?.Value ?? "Transparent"};")" />
+                        }
+                        <FluentLabel>@context?.Text</FluentLabel>
+                    </FluentStack>
+                </OptionTemplate>
+            </FluentSelect>
+            @if (options?.ColorPosition == UIInputColorPosition.Right)
+            {
+                <div style="@selectedColorStyle" />
+            }
+        </FluentStack>
+    </Content>
+</UIInput>
+
+@code {
+    private readonly string cssId = Guid.NewGuid().ToCssId();
+    private UIColorOptions options = new();
+    private SelectOptions selectOptions => options.SelectOptions!;
+    private List<Option<string>> colors = [];
+    private string selectedColor => string.IsNullOrWhiteSpace(Model.BindValue) ? "Transparent" : Model.BindValue;
+    private string selectedColorStyle => $"height:1.25rem;width:1.25rem;border: solid 1px black;background-color:{selectedColor};";
+    private string height => string.IsNullOrWhiteSpace(Height) ? "350px" : Height;
+    private string width => string.IsNullOrWhiteSpace(Width) ? "220px" : Width;
+
+    [Parameter]
+    public IEnumerable<HtmlColorNameListItem>? Colors { get; set; }
+
+    /// <summary>
+    /// <see cref="ListComponentBase{TOption}.Height"/>
+    /// </summary>
+    [Parameter]
+    public string? Height { get; set; }
+
+    [Parameter, EditorRequired]
+    public IUIModelValue Model { get; set; }
+
+    [Parameter]
+    public UIColorOptions? Options { get; set; }
+
+    /// <summary>
+    /// <see cref="FluentInputBase{TValue}.ReadOnly"/>
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    /// <summary>
+    /// <see cref="ListComponentBase{TOption}.Width"/>
+    /// </summary>
+    [Parameter]
+    public string? Width { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (Options != null)
+        {
+            options = Options;
+            options.SelectOptions ??= new();
+        }
+
+        if (Colors == null)
+        {
+            var colorNames = new HtmlColorNameCollection(Model.IsNullableValueType, "");
+            colors = colorNames.Items.Select(e => new Option<string>() { Text = e.NameDisplay, Value = e.Name }).ToList();
+            return;
+        }
+
+        colors = Colors.Select(e => new Option<string>() { Text = e.NameDisplay, Value = e.Name }).ToList();
+    }
+}

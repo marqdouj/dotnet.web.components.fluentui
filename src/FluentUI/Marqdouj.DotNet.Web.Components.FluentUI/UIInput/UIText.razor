@@ -1,0 +1,42 @@
+﻿<UIInput Model="@Model" Options="@options">
+    <Content>
+        <FluentTextField TextFieldType="@FieldType" ReadOnly="@ReadOnly" @bind-Value="Model.BindValue" Style="@style" />
+    </Content>
+</UIInput>
+
+@code {
+    private UITextOptions options = new();
+    private string? style => string.IsNullOrWhiteSpace(Style) ? "width:150px;" : Style;
+
+    /// <summary>
+    /// <see cref="TextFieldType"/>ee
+    /// </summary>
+    [Parameter]
+    public TextFieldType FieldType { get; set; } = TextFieldType.Text;
+
+    [Parameter, EditorRequired]
+    public IUIModelValue Model { get; set; }
+
+    [Parameter]
+    public UITextOptions? Options { get; set; }
+
+    /// <summary>
+    /// <see cref="FluentInputBase{TValue}.ReadOnly"/>
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    /// <summary>
+    /// <see cref="FluentComponentBase.Style"/>
+    /// </summary>
+    [Parameter]
+    public string? Style { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (Options != null)
+        {
+            options = Options;
+        }
+    }
+}

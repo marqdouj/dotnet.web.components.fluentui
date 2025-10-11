@@ -1,0 +1,47 @@
+﻿@using Microsoft.FluentUI.AspNetCore.Components.Extensions
+
+<FluentDesignTheme @bind-Mode="@options.Mode"
+                   @bind-OfficeColor="@options.Color"
+                   OnLoaded="OnLoaded"
+                   StorageName="@options.StorageName" />
+
+<FluentSelect Label="@options.Label"
+              Items="@colors"
+              AriaLabel="@options.AriaLabel"
+              Height="@options.Height"
+              Width="@options.Width"
+              @bind-SelectedOption="@options.Color">
+    <OptionTemplate>
+        <FluentStack hidden="@notLoaded">
+            <FluentIcon Value="@options.ColorIcon"
+                        Color="Color.Custom"
+                        CustomColor="@(@context.ToAttributeValue() != "default" ? context.ToAttributeValue() : "#036ac4")" />
+            <FluentLabel>@context</FluentLabel>
+        </FluentStack>
+    </OptionTemplate>
+</FluentSelect>
+
+@code {
+    private ThemeOptions options = new();
+    private IEnumerable<OfficeColor?>? colors = Enum.GetValues<OfficeColor>().Select(i => (OfficeColor?)i);
+
+    //Helps prevent flicker of loading/displaying all colors before resizing to the Height setting
+    private bool loaded;
+    private bool notLoaded => !loaded;
+
+    [Parameter]
+    public ThemeOptions? Options { get; set; }
+
+    void OnLoaded(LoadedEventArgs e)
+    {
+        loaded = true;
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (Options is null)
+            return;
+
+        options = Options;
+    }
+}

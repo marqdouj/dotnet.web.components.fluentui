@@ -1,0 +1,35 @@
+﻿<FluentStack Orientation="@Options.Orientation"
+             VerticalGap="@Options.VerticalGap"
+             HorizontalGap="@Options.HorizontalGap">
+    @if (Options.ShowLabel)
+    {
+        <FluentStack VerticalAlignment="VerticalAlignment.Center" HorizontalGap="3">
+            <FluentLabel>@Model.NameDisplay</FluentLabel>
+            @if (Options.ShowTooltip && Model.HasDescription)
+            {
+                <FluentIcon Id="@iconId" Value="@Options.Icon" />
+                <FluentTooltip Anchor="@iconId"
+                               Delay="@Options.TooltipOptions?.Delay"
+                               MaxWidth="@Options.TooltipOptions?.MaxWidth"
+                               Position="Options.TooltipOptions?.Position">
+                    @Model.Description
+                </FluentTooltip>
+            }
+        </FluentStack>
+    }
+
+    @Content
+</FluentStack>
+
+@code {
+    private readonly string iconId = Guid.NewGuid().ToCssId();
+
+    [Parameter, EditorRequired]
+    public RenderFragment Content { get; set; }
+
+    [Parameter, EditorRequired]
+    public IUIModelValue Model { get; set; }
+
+    [Parameter, EditorRequired]
+    public UIInputOptions Options { get; set; }
+}

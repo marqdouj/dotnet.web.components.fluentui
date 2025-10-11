@@ -1,0 +1,65 @@
+﻿<UIInput Model="@Model" Options="@options">
+    <Content>
+        <FluentSelect Id="@cssId"
+                      Items="@Items"
+                      TOption="Option<string>"
+                      OptionText="@(i => i.Text)"
+                      OptionValue="@(i => i.Value)"
+                      Appearance="@selectOptions.Appearance"
+                      AriaLabel="@selectOptions.AriaLabel"
+                      Class="@selectOptions.Class"
+                      Disabled="@selectOptions.Disabled"
+                      Height="@height"
+                      Placeholder="@selectOptions.Placeholder"
+                      Position="@selectOptions.Position"
+                      ReadOnly="@ReadOnly"
+                      Required="@selectOptions.Required"
+                      Style="@selectOptions.Style"
+                      Width="@width"
+                      @bind-Value="@Model.BindValue"/>
+    </Content>
+</UIInput>
+
+@code {
+    private readonly string cssId = Guid.NewGuid().ToCssId();
+    private UISelectOptions options = new();
+    private SelectOptions selectOptions => options.SelectOptions!;
+    private string height => string.IsNullOrWhiteSpace(Height) ? "350px" : Height;
+    private string width => string.IsNullOrWhiteSpace(Width) ? "220px" : Width;
+
+    /// <summary>
+    /// <see cref="ListComponentBase{TOption}.Height"/>
+    /// </summary>
+    [Parameter]
+    public string? Height { get; set; }
+
+    [Parameter, EditorRequired]
+    public List<Option<string>> Items { get; set; }
+
+    [Parameter, EditorRequired]
+    public IUIModelValue Model { get; set; }
+
+    [Parameter]
+    public UISelectOptions? Options { get; set; }
+
+    /// <summary>
+    /// <see cref="FluentInputBase{TValue}.ReadOnly"/>
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    /// <summy>
+    /// <see cref="ListComponentBase{TOption}.Width"/>
+    /// </summary>
+    [Parameter]
+    public string? Width { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (Options != null)
+        {
+            options = Options;
+            options.SelectOptions ??= new();
+        }
+    }
+}

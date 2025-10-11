@@ -1,0 +1,40 @@
+﻿<FluentDataGrid Items="@items"
+				Style="@Style"
+				Class="@Class"
+				MultiLine="@MultiLine"
+				ResizableColumns="true"
+				ResizeType="DataGridResizeType.Discrete"
+				GridTemplateColumns="@templateColumns"
+				GenerateHeader="GenerateHeaderOption.Sticky">
+	<PropertyColumn Property="@(p => p.NameDisplay)" Title="Name" Align="Align.Start" />
+	<PropertyColumn Property="@(p => p.FormatValue)" title="Value" Align="Align.Start" />
+	@if (WithDescription)
+	{
+		<PropertyColumn Property="@(p => p.Description)" Align="Align.Start" />
+	}
+</FluentDataGrid>
+
+@code {
+	private IQueryable<IUIModelValue>? items => Items?.AsQueryable();
+	private string templateColumns => string.IsNullOrWhiteSpace(GridTemplateColumns)
+		? "200px 1fr 1fr"
+		: GridTemplateColumns;
+
+	[Parameter]
+	public string? Class { get; set; }
+
+	[Parameter]
+	public string? GridTemplateColumns { get; set; }
+
+	[Parameter]
+	public bool MultiLine { get; set; } = true;
+
+	[Parameter]
+	public string? Style { get; set; }
+
+	[Parameter, EditorRequired]
+	public List<IUIModelValue> Items { get; set; }
+
+	[Parameter]
+	public bool WithDescription { get; set; } = true;
+}
