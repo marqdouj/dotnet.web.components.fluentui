@@ -21,8 +21,10 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
   - `UIText`: Supports string, double, int32, and int64 binding.
   - `UIValuesGrid`: Displays the UIModel values as a grid.
 
-
-
 ## Release Notes
+- `10.0.0-Preview.2`
+  - `ToastExtensions`. Helper extension methods for
+  Success, Warning, Error, and Info.
+
 - `10.0.0-Preview`
   - Initial release.
