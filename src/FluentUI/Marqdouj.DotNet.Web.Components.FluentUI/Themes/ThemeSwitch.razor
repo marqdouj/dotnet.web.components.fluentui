@@ -1,6 +1,5 @@
 ﻿<FluentDesignTheme @bind-Mode="@Mode"
                    @bind-OfficeColor="@OfficeColor"
-                   OnLoaded="@OnLoaded"
                    StorageName="@StorageName" />
 
 <FluentButton Appearance="@Appearance"
@@ -9,8 +8,10 @@
               Title="@Title" />
 
 @code {
+    [Parameter]
     public DesignThemeModes Mode { get; set; }
 
+    [Parameter]
     public OfficeColor? OfficeColor { get; set; }
 
     [Parameter]
@@ -24,23 +25,6 @@
 
     [Parameter]
     public string Title { get; set; } = "Theme";
-
-    private bool _isDark = false;
-
-    void OnLoaded(LoadedEventArgs e)
-    {
-        IsDark = e.IsDark;
-    }
-
-    public bool IsDark
-    {
-        get => _isDark = (Mode == DesignThemeModes.Dark) ? true : false;
-        set
-        {
-            _isDark = value;
-            Mode = _isDark ? DesignThemeModes.Dark : DesignThemeModes.Light;
-        }
-    }
 
     private void SwitchTheme()
     {
