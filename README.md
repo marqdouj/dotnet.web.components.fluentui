@@ -11,10 +11,6 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
 ## Features
 
 **Components**
-- [**Themes**](https://www.fluentui-blazor.net/DesignTheme)
-  - **ThemeSwitch**: Component for toggling between light and dark themes.
-  - **ThemeMode**: Component for selecting between system, light, and dark themes.
-  - **ThemeColor**: Component for selecting theme color.
 - **UIInput**. Components for user input that support binding to [`IUIModelValue`](https://github.com/marqdouj/HtmlComponents/tree/master/src/Marqdouj.HtmlComponents/Marqdouj.HtmlComponents/UI).
   - `UIColor`: Select from a list of HtmlColors (list of items is customizable).
   - `UISelect`: Select a value from a list (list of items is customizable).
@@ -22,6 +18,17 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
   - `UIValuesGrid`: Displays the UIModel values as a grid.
 
 ## Release Notes
+- `10.0.0-Preview3` (Breaking Changes)
+  - `Themes`. Removed all Theme components.
+  The components are not working the same as in previous versions of .NET,
+  so I am removing them (I might add them back in a later version).
+  You can manually add theme management to your apps by following the
+  [FluentUI Design Theme](https://www.fluentui-blazor.net/DesignTheme) docs.
+
+
+- `10.0.0-Preview2.2.1`
+  - `Themes`. Added StateHasChanged notification.
+
 - `10.0.0-Preview2.2`
   - `Themes`. Modifications to the ThemeSwitch component.
 
