@@ -15,11 +15,6 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
   - **`ThemeSelect`**: Combination of both ThemeMode and ThemeColor.
     Supports Horizontal or Vertical display.
   - **`ThemeSwitch`**: Component for toggling between light and dark themes.
-    Note: The first time the component is used, and if local storage has not been set,
-    it will assume Light mode and try to switch to Dark mode.
-    However, it really has no way of knowing what the user's system
-    mode is so the user might have to click twice. 
-    Once the local storage has been set for the first time, then the toggle action will work normally
   - **`ThemeMode`**: Component for selecting between system, light, and dark themes.
   - **`ThemeColor`**: Component for selecting theme color.
   
@@ -30,6 +25,10 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
   - `UIValuesGrid`: Displays the UIModel values as a grid.
 
 ## Release Notes
+- `10.0.0-Preview4.1`
+  - `Themes`.
+    - `ThemeSwitch`. Added 'Windows' check for system theme.
+
 - `10.0.0-Preview4`
   - `Themes`.
     - `ThemeSelect`. New component. Combination of both ThemeMode and ThemeColor.

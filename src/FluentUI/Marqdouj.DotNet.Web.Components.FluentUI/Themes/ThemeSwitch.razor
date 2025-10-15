@@ -35,8 +35,8 @@
                 Mode = Mode == DesignThemeModes.Dark ? DesignThemeModes.Light : DesignThemeModes.Dark;
                 break;
             default:
-                //Assume Light is the browser/system default, but it could be either.
-                Mode = DesignThemeModes.Dark;
+                var isDark = ThemeDetector.IsDarkModeEnabled();
+                Mode = isDark ? DesignThemeModes.Light : DesignThemeModes.Dark;
                 break;
         }
     }
