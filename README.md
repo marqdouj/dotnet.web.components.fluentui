@@ -14,7 +14,7 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
 - [**Themes**](https://www.fluentui-blazor.net/DesignTheme)
   - **`ThemeSelect`**: Combination of both ThemeMode and ThemeColor.
     Supports Horizontal or Vertical display.
-  - **`ThemeSwitch`**: Component for toggling between light and dark themes.
+  - **`ThemeToggle`**: Component for toggling between light and dark themes.
   - **`ThemeMode`**: Component for selecting between system, light, and dark themes.
   - **`ThemeColor`**: Component for selecting theme color.
   
@@ -25,6 +25,14 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
   - `UIValuesGrid`: Displays the UIModel values as a grid.
 
 ## Release Notes
+- `10.0.0-Preview6.0` (Breaking Changes)
+  - `Themes`.
+    - `ThemeToggle`. 
+      - Renamed `ThemeSwitch` to `ThemeToggle`. The name better
+      represents what the control actually does.
+      - Previous Parameters now part of 'Settings`.
+  - `XMLComments`. Comments are now distributed with the package.
+
 - `10.0.0-Preview4.1`
   - `Themes`.
     - `ThemeSwitch`. Added 'Windows' check for system theme.

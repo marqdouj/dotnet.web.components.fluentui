@@ -1,0 +1,63 @@
+﻿@{
+    if (FluentDesignTheme)
+    {
+        <FluentDesignTheme @bind-Mode="@themeSettings.Mode"
+                           @bind-OfficeColor="@themeSettings.OfficeColor"
+                           StorageName="@themeSettings.StorageName" />
+    }
+}
+
+<FluentButton Appearance="@settings.Appearance" 
+              Disabled="@settings.Disabled"
+              IconEnd="@settings.IconEnd"
+              IconStart="@settings.IconStart"
+              Title="@settings.Title"
+              OnClick="ToggleTheme"/>
+
+@code {
+    private ThemeToggleSettings settings = new();
+    private DesignThemeSettings themeSettings = new();
+
+    /// <summary>
+    /// Flag to include the FluentDesignTheme component. Default is 'true'.<br />
+    /// If false, then the FluentDesignTheme component must be present elsewhere,<br />
+    /// the ThemeSettings must provided and be bound to the other component,<br />
+    /// and you must set the ThemeSettings.StateChanged action and call StateHasChanged().<br />
+    /// <example>
+    /// Configure ThemeSettings for StateChanged.<br />
+    /// <code>
+    /// private readonly DesignThemeSettings themeSettings = new();
+    /// protected override void OnInitialized()
+    /// {
+    ///     themeSettings.StateChanged += (string propertyName) =>
+    ///     {
+    ///          StateHasChanged();
+    ///     }
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    [Parameter]
+    public bool FluentDesignTheme { get; set; } = true;
+
+    [Parameter]
+    public ThemeToggleSettings? Settings { get; set; }
+
+    [Parameter]
+    public DesignThemeSettings? ThemeSettings { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        settings = Settings ?? new();
+
+        if (!FluentDesignTheme)
+            ArgumentNullException.ThrowIfNull(ThemeSettings);
+
+        themeSettings = ThemeSettings ?? new();
+    }
+
+    private void ToggleTheme()
+    {
+        themeSettings.ToggleTheme();
+    }
+}

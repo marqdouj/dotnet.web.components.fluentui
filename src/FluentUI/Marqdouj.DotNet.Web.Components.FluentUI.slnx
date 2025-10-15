@@ -1,3 +1,6 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
   <Project Path="Marqdouj.DotNet.Web.Components.FluentUI/Marqdouj.DotNet.Web.Components.FluentUI.csproj" />
 </Solution>
