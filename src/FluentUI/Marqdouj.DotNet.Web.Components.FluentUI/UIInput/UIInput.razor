@@ -18,14 +18,14 @@
         </FluentStack>
     }
 
-    @Content
+    @ChildContent
 </FluentStack>
 
 @code {
     private readonly string iconId = Guid.NewGuid().ToCssId();
 
     [Parameter, EditorRequired]
-    public RenderFragment Content { get; set; }
+    public RenderFragment ChildContent { get; set; }
 
     [Parameter, EditorRequired]
     public IUIModelValue Model { get; set; }

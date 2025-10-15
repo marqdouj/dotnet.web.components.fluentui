@@ -1,23 +1,21 @@
 ﻿<UIInput Model="@Model" Options="@options">
-    <Content>
-        <FluentSelect Id="@cssId"
-                      Items="@Items"
-                      TOption="Option<string>"
-                      OptionText="@(i => i.Text)"
-                      OptionValue="@(i => i.Value)"
-                      Appearance="@selectOptions.Appearance"
-                      AriaLabel="@selectOptions.AriaLabel"
-                      Class="@selectOptions.Class"
-                      Disabled="@selectOptions.Disabled"
-                      Height="@height"
-                      Placeholder="@selectOptions.Placeholder"
-                      Position="@selectOptions.Position"
-                      ReadOnly="@ReadOnly"
-                      Required="@selectOptions.Required"
-                      Style="@selectOptions.Style"
-                      Width="@width"
-                      @bind-Value="@Model.BindValue"/>
-    </Content>
+    <FluentSelect Id="@cssId"
+                  Items="@Items"
+                  TOption="Option<string>"
+                  OptionText="@(i => i.Text)"
+                  OptionValue="@(i => i.Value)"
+                  Appearance="@selectOptions.Appearance"
+                  AriaLabel="@selectOptions.AriaLabel"
+                  Class="@selectOptions.Class"
+                  Disabled="@selectOptions.Disabled"
+                  Height="@height"
+                  Placeholder="@selectOptions.Placeholder"
+                  Position="@selectOptions.Position"
+                  ReadOnly="@ReadOnly"
+                  Required="@selectOptions.Required"
+                  Style="@selectOptions.Style"
+                  Width="@width"
+                  @bind-Value="@Model.BindValue" />
 </UIInput>
 
 @code {
