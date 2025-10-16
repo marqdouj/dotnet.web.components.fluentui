@@ -25,6 +25,10 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
   - `UIValuesGrid`: Displays the UIModel values as a grid.
 
 ## Release Notes
+- `10.0.0-Preview7.1`
+  - `Themes`.
+    - `ThemeSelect`. Added missing check for FluentDesignTheme flag.
+
 - `10.0.0-Preview7.0` (Breaking Changes)
   - `ThemeSelect`. Renamed `ThemeSelectOptions` to `ThemeSelectSettings`.
 

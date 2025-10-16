@@ -1,9 +1,13 @@
-﻿@using Microsoft.FluentUI.AspNetCore.Components.Extensions
-<FluentDesignTheme @bind-Mode="@themeSettings.Mode"
-                   @bind-OfficeColor="@themeSettings.OfficeColor"
-                   OnLoaded="@OnLoaded"
-                   OnLuminanceChanged="@OnLuminanceChanged"
-                   StorageName="@themeSettings.StorageName" />
+﻿@{
+    if (FluentDesignTheme)
+    {
+        <FluentDesignTheme @bind-Mode="@themeSettings.Mode"
+                           @bind-OfficeColor="@themeSettings.OfficeColor"
+                           OnLoaded="@OnLoaded"
+                           OnLuminanceChanged="@OnLuminanceChanged"
+                           StorageName="@themeSettings.StorageName" />
+    }
+}
 
 @{
     switch (Alignment)
