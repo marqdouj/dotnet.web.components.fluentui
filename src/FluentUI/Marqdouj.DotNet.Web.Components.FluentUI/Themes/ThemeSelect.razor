@@ -1,30 +1,30 @@
 ﻿@using Microsoft.FluentUI.AspNetCore.Components.Extensions
-<FluentDesignTheme @bind-Mode="@options.Mode"
-                   @bind-OfficeColor="@options.OfficeColor"
+<FluentDesignTheme @bind-Mode="@themeSettings.Mode"
+                   @bind-OfficeColor="@themeSettings.OfficeColor"
                    OnLoaded="@OnLoaded"
                    OnLuminanceChanged="@OnLuminanceChanged"
-                   StorageName="@options.StorageName" />
+                   StorageName="@themeSettings.StorageName" />
 
 @{
     switch (Alignment)
     {
         case ThemeSelectAligment.Vertical:
             <FluentStack Orientation="Orientation.Vertical" Style="@verticalStyle">
-                <FluentSelect Label="@options.ThemeLabel"
-                              Width="@options.ThemeWidth"
-                              Style="@options.ThemeStyle"
+                <FluentSelect Label="@settings.ThemeLabel"
+                              Width="@settings.ThemeWidth"
+                              Style="@settings.ThemeStyle"
                               Items="@(Enum.GetValues<DesignThemeModes>())"
-                              @bind-SelectedOption="@options.Mode" />
+                              @bind-SelectedOption="@themeSettings.Mode" />
 
-                <FluentSelect Label="@options.ColorLabel"
+                <FluentSelect Label="@settings.ColorLabel"
                               Items="@(Enum.GetValues<OfficeColor>().Select(i => (OfficeColor?)i))"
-                              Height="@options.ColorHeight"
-                              Style="@options.ColorStyle"
-                              Width="@options.ColorWidth"
-                              @bind-SelectedOption="@options.OfficeColor">
+                              Height="@settings.ColorHeight"
+                              Style="@settings.ColorStyle"
+                              Width="@settings.ColorWidth"
+                              @bind-SelectedOption="@themeSettings.OfficeColor">
                     <OptionTemplate>
                         <FluentStack hidden="@notLoaded">
-                            <FluentIcon Value="@options.ColorIcon"
+                            <FluentIcon Value="@settings.ColorIcon"
                                         Color="Color.Custom"
                                         CustomColor="@(@context.ToAttributeValue() != "default" ? context.ToAttributeValue() : "#036ac4")" />
                             <FluentLabel>@context</FluentLabel>
@@ -37,23 +37,23 @@
             <div style="@horizontalStyle">
                 <FluentGrid>
                     <FluentGridItem>
-                        <FluentSelect Label="@options.ThemeLabel"
-                                      Width="@options.ThemeWidth"
-                                      Style="@options.ThemeStyle"
+                        <FluentSelect Label="@settings.ThemeLabel"
+                                      Width="@settings.ThemeWidth"
+                                      Style="@settings.ThemeStyle"
                                       Items="@(Enum.GetValues<DesignThemeModes>())"
-                                      @bind-SelectedOption="@options.Mode" />
+                                      @bind-SelectedOption="@themeSettings.Mode" />
                     </FluentGridItem>
 
                     <FluentGridItem>
-                        <FluentSelect Label="@options.ColorLabel"
+                        <FluentSelect Label="@settings.ColorLabel"
                                       Items="@(Enum.GetValues<OfficeColor>().Select(i => (OfficeColor?)i))"
-                                      Height="@options.ColorHeight"
-                                      Style="@options.ColorStyle"
-                                      Width="@options.ColorWidth"
-                                      @bind-SelectedOption="@options.OfficeColor">
+                                      Height="@settings.ColorHeight"
+                                      Style="@settings.ColorStyle"
+                                      Width="@settings.ColorWidth"
+                                      @bind-SelectedOption="@themeSettings.OfficeColor">
                             <OptionTemplate>
                                 <FluentStack hidden="@notLoaded">
-                                    <FluentIcon Value="@options.ColorIcon"
+                                    <FluentIcon Value="@settings.ColorIcon"
                                                 Color="Color.Custom"
                                                 CustomColor="@(@context.ToAttributeValue() != "default" ? context.ToAttributeValue() : "#036ac4")" />
                                     <FluentLabel>@context</FluentLabel>
@@ -71,15 +71,40 @@
 {
     private string horizontalStyle => string.IsNullOrWhiteSpace(HorizontalStyle) ? "min-height: 250px;" : HorizontalStyle;
     private string verticalStyle => string.IsNullOrWhiteSpace(VerticalStyle) ? "" : VerticalStyle;
-    private ThemeSelectOptions options = new();
+    private ThemeSelectSettings settings = new();
+    private DesignThemeSettings themeSettings = new();
+
     //Helps prevent flicker of loading/displaying all colors before resizing to the Height setting
     private bool loaded;
     private bool notLoaded => !loaded;
 
+    /// <summary>
+    /// Flag to include the FluentDesignTheme component. Default is 'true'.<br />
+    /// If false, then the FluentDesignTheme component must be present elsewhere.<br />
+    /// The ThemeSettings must be provided, bound to the other component,<br />
+    /// and the ThemeSettings.StateChanged action set with StateHasChanged().<br />
+    /// <example>
+    /// Configure ThemeSettings for StateChanged.<br />
+    /// <code>
+    /// private readonly DesignThemeSettings themeSettings = new();
+    /// protected override void OnInitialized()
+    /// {
+    ///     themeSettings.StateChanged += (string propertyName) =>
+    ///     {
+    ///          StateHasChanged();
+    ///     }
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    [Parameter]
+    public bool FluentDesignTheme { get; set; } = true;
+
     [Parameter]
     public ThemeSelectAligment Alignment { get; set; }
+
     [Parameter]
-    public ThemeSelectOptions? Options { get; set; }
+    public ThemeSelectSettings? Settings { get; set; }
 
     /// <summary>
     /// Style for the surrounding div when Alignment is Horizontal.
@@ -87,6 +112,9 @@
     /// </summary>
     [Parameter]
     public string? HorizontalStyle { get; set; }
+
+    [Parameter]
+    public DesignThemeSettings? ThemeSettings { get; set; }
 
     /// <summary>
     /// Style for the FluentStack when Alignment is Vertical.
@@ -102,10 +130,12 @@
 
     protected override void OnParametersSet()
     {
-        if (Options == null)
-            return;
+        if (!FluentDesignTheme)
+            ArgumentNullException.ThrowIfNull(ThemeSettings);
 
-        options = Options;
+        themeSettings = ThemeSettings ?? new();
+
+        settings = Settings ?? new();
     }
 
     private async Task OnLoaded(LoadedEventArgs e)
