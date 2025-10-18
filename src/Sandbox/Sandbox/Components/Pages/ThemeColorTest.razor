@@ -1,0 +1,25 @@
+﻿@page "/test-themecolor"
+@rendermode InteractiveServer
+
+<PageTitle>ThemeColor</PageTitle>
+
+<FluentLayout>
+	<FluentHeader>
+		ThemeColor
+	</FluentHeader>
+
+	<ThemeColor Loaded="OnLoaded" LuminanceChanged="OnLuminanceChanged" />
+</FluentLayout>
+
+@code {
+
+    private void OnLoaded(LoadedEventArgs args)
+    {
+        Console.WriteLine($"OnLoaded: {args.Mode}");
+    }
+
+    private void OnLuminanceChanged(LuminanceChangedEventArgs args)
+    {
+        Console.WriteLine($"OnLuminanceChanged: {args.Mode}");
+    }
+}
