@@ -1,38 +1,74 @@
-﻿<FluentDesignTheme @bind-Mode="@options.Mode"
-                   @bind-OfficeColor="@options.Color"
-                   OnLoaded="OnLoaded"
-                   StorageName="@options.StorageName" />
-@if (loaded)
-{
-    <FluentSelect Label="@options.Label"
-                  Height="@options.Height"
-                  Width="@options.Width"
-                  AriaLabel="@options.AriaLabel"
-                  Items="@modes"
-                  @bind-SelectedOption="@options.Mode" />
+﻿@{
+    if (!ExternalDesignTheme)
+    {
+        <FluentDesignTheme @bind-Mode="@themeSettings.Mode"
+                           @bind-OfficeColor="@themeSettings.OfficeColor"
+                           OnLoaded="@OnLoaded"
+                           OnLuminanceChanged="@OnLuminanceChanged"
+                           StorageName="@themeSettings.StorageName" />
+    }
 }
 
-@code {
-    private ThemeOptions options = new();
-    private DesignThemeModes[] modes = Enum.GetValues<DesignThemeModes>();
+<FluentSelect Appearance="@settings.Appearance"
+              AriaLabel="@settings.AriaLabel"
+              Disabled="@settings.Disabled"
+              Height="@settings.Height"
+              Label="@settings.Label"
+              Placeholder="@settings.Placeholder"
+              ReadOnly="@settings.ReadOnly"
+              Required="@settings.Required"
+              Style="@settings.Style"
+              Width="@settings.Width"
+              Items="@(Enum.GetValues<DesignThemeModes>())"
+              @bind-SelectedOption="@themeSettings.Mode" />
 
-    //Helps prevent flicker of displaying mode
-    private bool loaded;
-    private bool notLoaded => !loaded;
+@code {
+    private ThemeModeSettings settings = new();
+    private DesignThemeSettings themeSettings = new();
 
     [Parameter]
-    public ThemeOptions? Options { get; set; }
+    public ThemeModeSettings? Settings { get; set; }
 
-    void OnLoaded(LoadedEventArgs e)
+    /// <summary>
+    /// <see cref="IThemeComponent.ExternalDesignTheme"/>
+    /// </summary>
+    [Parameter]
+    public bool ExternalDesignTheme { get; set; }
+
+    /// <summary>
+    /// <see cref="IThemeComponent.ThemeSettings"/>
+    /// </summary>
+	[Parameter]
+    public DesignThemeSettings? ThemeSettings { get; set; }
+
+    /// <summary>
+    /// <see cref="FluentDesignTheme.OnLoaded"/>
+    /// </summary>
+    [Parameter]
+    public EventCallback<LoadedEventArgs> Loaded { get; set; }
+
+    /// <summary>
+    /// <see cref="FluentDesignTheme.OnLuminanceChanged"/>
+    /// </summary>
+    [Parameter]
+    public EventCallback<LuminanceChangedEventArgs> LuminanceChanged { get; set; }
+
+    private async Task OnLoaded(LoadedEventArgs e)
     {
-        loaded = true;
+        await Loaded.InvokeAsync(e);
+    }
+
+    private async Task OnLuminanceChanged(LuminanceChangedEventArgs e)
+    {
+        await LuminanceChanged.InvokeAsync(e);
     }
 
     protected override void OnParametersSet()
     {
-        if (Options is null)
-            return;
+        if (ExternalDesignTheme)
+            ArgumentNullException.ThrowIfNull(ThemeSettings);
 
-        options = Options;
+        themeSettings = ThemeSettings ?? new();
+        settings = Settings ?? new();
     }
 }

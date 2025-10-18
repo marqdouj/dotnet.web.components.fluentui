@@ -12,12 +12,12 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
 
 **Components**
 - [**Themes**](https://www.fluentui-blazor.net/DesignTheme)
+  - **`ThemeColor`**: Component for selecting theme color.
+  - **`ThemeMode`**: Component for selecting between system, light, and dark themes.
+  - **`ThemeToggle`**: Component for toggling between light/dark mode.
   - **`ThemeSelect`**: Combination of both ThemeMode and ThemeColor.
     Supports Horizontal or Vertical display.
-  - **`ThemeToggle`**: Component for toggling between light and dark themes.
-  - **`ThemeMode`**: Component for selecting between system, light, and dark themes.
-  - **`ThemeColor`**: Component for selecting theme color.
-  
+
 - **UIInput**. Components for user input that support binding to [`IUIModelValue`](https://github.com/marqdouj/HtmlComponents/tree/master/src/Marqdouj.HtmlComponents/Marqdouj.HtmlComponents/UI).
   - `UIColor`: Select from a list of HtmlColors (list of items is customizable).
   - `UISelect`: Select a value from a list (list of items is customizable).
@@ -25,6 +25,11 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
   - `UIValuesGrid`: Displays the UIModel values as a grid.
 
 ## Release Notes
+- `10.0.0-Preview8.0` (Breaking Changes)
+  - `Themes`.
+    - All Theme components and settings have been refactored.
+    - If you were only using defaults previously then you shouldn't notice the difference.
+
 - `10.0.0-Preview7.1`
   - `Themes`.
     - `ThemeSelect`. Added missing check for FluentDesignTheme flag.

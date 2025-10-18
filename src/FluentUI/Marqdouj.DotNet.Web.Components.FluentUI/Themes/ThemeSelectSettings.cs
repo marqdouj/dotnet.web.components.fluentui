@@ -1,7 +1,4 @@
-﻿using Microsoft.FluentUI.AspNetCore.Components;
-using Icons = Microsoft.FluentUI.AspNetCore.Components.Icons;
-
-namespace Marqdouj.DotNet.Web.Components.FluentUI.Themes
+﻿namespace Marqdouj.DotNet.Web.Components.FluentUI.Themes
 {
     public enum ThemeSelectAligment
     {
@@ -9,15 +6,9 @@ namespace Marqdouj.DotNet.Web.Components.FluentUI.Themes
         Vertical
     }
 
-    public class ThemeSelectSettings
+    public class ThemeSelectSettings(ThemeColorSettings? colorSettings = null, ThemeModeSettings? modeSettings = null)
     {
-        public string? ColorLabel { get; set; } = "Color";
-        public Icon ColorIcon { get; set; } = new Icons.Filled.Size20.RectangleLandscape();
-        public string? ColorHeight { get; set; } = "200px";
-        public string? ColorStyle { get; set; }
-        public string? ColorWidth { get; set; } = "200px";
-        public string? ThemeLabel { get; set; } = "Theme";
-        public string? ThemeStyle { get; set; }
-        public string? ThemeWidth { get; set; } = "200px";
+        public ThemeColorSettings ColorSettings { get; } = colorSettings ?? new();
+        public ThemeModeSettings ModeSettings { get; } = modeSettings ?? new();
     }
 }

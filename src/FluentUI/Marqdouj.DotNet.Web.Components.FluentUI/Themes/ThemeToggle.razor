@@ -1,5 +1,5 @@
 ﻿@{
-    if (FluentDesignTheme)
+    if (!ExternalDesignTheme)
     {
         <FluentDesignTheme @bind-Mode="@themeSettings.Mode"
                            @bind-OfficeColor="@themeSettings.OfficeColor"
@@ -18,42 +18,50 @@
     private ThemeToggleSettings settings = new();
     private DesignThemeSettings themeSettings = new();
 
-    /// <summary>
-    /// Flag to include the FluentDesignTheme component. Default is 'true'.<br />
-    /// If false, then the FluentDesignTheme component must be present elsewhere.<br />
-    /// The ThemeSettings must be provided, bound to the other component,<br />
-    /// and the ThemeSettings.StateChanged action set with StateHasChanged().<br />
-    /// <example>
-    /// Configure ThemeSettings for StateChanged.<br />
-    /// <code>
-    /// private readonly DesignThemeSettings themeSettings = new();
-    /// protected override void OnInitialized()
-    /// {
-    ///     themeSettings.StateChanged += (string propertyName) =>
-    ///     {
-    ///          StateHasChanged();
-    ///     }
-    /// }
-    /// </code>
-    /// </example>
-    /// </summary>
-    [Parameter]
-    public bool FluentDesignTheme { get; set; } = true;
-
     [Parameter]
     public ThemeToggleSettings? Settings { get; set; }
 
+    /// <summary>
+    /// <see cref="IThemeComponent.ExternalDesignTheme"/>
+    /// </summary>
     [Parameter]
+    public bool ExternalDesignTheme { get; set; }
+
+    /// <summary>
+    /// <see cref="IThemeComponent.ThemeSettings"/>
+    /// </summary>
+	[Parameter]
     public DesignThemeSettings? ThemeSettings { get; set; }
+
+    /// <summary>
+    /// <see cref="FluentDesignTheme.OnLoaded"/>
+    /// </summary>
+    [Parameter]
+    public EventCallback<LoadedEventArgs> Loaded { get; set; }
+
+    /// <summary>
+    /// <see cref="FluentDesignTheme.OnLuminanceChanged"/>
+    /// </summary>
+    [Parameter]
+    public EventCallback<LuminanceChangedEventArgs> LuminanceChanged { get; set; }
+
+    private async Task OnLoaded(LoadedEventArgs e)
+    {
+        await Loaded.InvokeAsync(e);
+    }
+
+    private async Task OnLuminanceChanged(LuminanceChangedEventArgs e)
+    {
+        await LuminanceChanged.InvokeAsync(e);
+    }
 
     protected override void OnParametersSet()
     {
-        settings = Settings ?? new();
-
-        if (!FluentDesignTheme)
+        if (ExternalDesignTheme)
             ArgumentNullException.ThrowIfNull(ThemeSettings);
 
         themeSettings = ThemeSettings ?? new();
+        settings = Settings ?? new();
     }
 
     private void ToggleTheme()

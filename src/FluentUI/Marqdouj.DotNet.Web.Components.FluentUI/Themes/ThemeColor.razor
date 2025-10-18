@@ -1,19 +1,29 @@
-﻿@using Microsoft.FluentUI.AspNetCore.Components.Extensions
+﻿@{
+    if (!ExternalDesignTheme)
+    {
+        <FluentDesignTheme @bind-Mode="@themeSettings.Mode"
+                           @bind-OfficeColor="@themeSettings.OfficeColor"
+                           OnLoaded="@OnLoaded"
+                           OnLuminanceChanged="@OnLuminanceChanged"
+                           StorageName="@themeSettings.StorageName" />
+    }
+}
 
-<FluentDesignTheme @bind-Mode="@options.Mode"
-                   @bind-OfficeColor="@options.Color"
-                   OnLoaded="OnLoaded"
-                   StorageName="@options.StorageName" />
-
-<FluentSelect Label="@options.Label"
-              Items="@colors"
-              AriaLabel="@options.AriaLabel"
-              Height="@options.Height"
-              Width="@options.Width"
-              @bind-SelectedOption="@options.Color">
+<FluentSelect Appearance="@settings.Appearance"
+              AriaLabel="@settings.AriaLabel"
+              Disabled="@settings.Disabled"
+              Height="@settings.Height"
+              Label="@settings.Label"
+              Placeholder="@settings.Placeholder"
+              ReadOnly="@settings.ReadOnly"
+              Required="@settings.Required"
+              Style="@settings.Style"
+              Width="@settings.Width"
+              Items="@(Enum.GetValues<OfficeColor>().Select(i => (OfficeColor?)i))"
+              @bind-SelectedOption="@themeSettings.OfficeColor">
     <OptionTemplate>
         <FluentStack hidden="@notLoaded">
-            <FluentIcon Value="@options.ColorIcon"
+            <FluentIcon Value="@settings.Icon"
                         Color="Color.Custom"
                         CustomColor="@(@context.ToAttributeValue() != "default" ? context.ToAttributeValue() : "#036ac4")" />
             <FluentLabel>@context</FluentLabel>
@@ -22,26 +32,58 @@
 </FluentSelect>
 
 @code {
-    private ThemeOptions options = new();
-    private IEnumerable<OfficeColor?>? colors = Enum.GetValues<OfficeColor>().Select(i => (OfficeColor?)i);
+	private ThemeColorSettings settings = new();
+	private DesignThemeSettings themeSettings = new();
 
-    //Helps prevent flicker of loading/displaying all colors before resizing to the Height setting
-    private bool loaded;
-    private bool notLoaded => !loaded;
+	//Helps prevent flicker of loading/displaying all colors before resizing to the Height setting
+	private bool loaded;
+	private bool notLoaded => !loaded;
 
+	[Parameter]
+	public ThemeColorSettings? Settings { get; set; }
+
+	/// <summary>
+	/// <see cref="IThemeComponent.ExternalDesignTheme"/>
+	/// </summary>
+	[Parameter]
+    public bool ExternalDesignTheme { get; set; }
+
+    /// <summary>
+    /// <see cref="IThemeComponent.ThemeSettings"/>
+    /// </summary>
+	[Parameter]
+	public DesignThemeSettings? ThemeSettings { get; set; }
+
+	/// <summary>
+	/// <see cref="FluentDesignTheme.OnLoaded"/>
+	/// </summary>
     [Parameter]
-    public ThemeOptions? Options { get; set; }
+    public EventCallback<LoadedEventArgs> Loaded { get; set; }
 
-    void OnLoaded(LoadedEventArgs e)
+    /// <summary>
+    /// <see cref="FluentDesignTheme.OnLuminanceChanged"/>
+    /// </summary>
+    [Parameter]
+    public EventCallback<LuminanceChangedEventArgs> LuminanceChanged { get; set; }
+
+    private async Task OnLoaded(LoadedEventArgs e)
     {
-        loaded = true;
+        await Loaded.InvokeAsync(e);
+    }
+
+    private async Task OnLuminanceChanged(LuminanceChangedEventArgs e)
+    {
+        await LuminanceChanged.InvokeAsync(e);
     }
 
     protected override void OnParametersSet()
     {
-        if (Options is null)
-            return;
+        if (ExternalDesignTheme)
+            ArgumentNullException.ThrowIfNull(ThemeSettings);
 
-        options = Options;
+        themeSettings = ThemeSettings ?? new();
+        settings = Settings ?? new();
+
+        loaded = true;
     }
 }

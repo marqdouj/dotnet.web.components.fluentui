@@ -3,6 +3,9 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace Marqdouj.DotNet.Web.Components.FluentUI.Themes
 {
+    /// <summary>
+    /// Manages setting for <see cref="FluentDesignTheme"/>
+    /// </summary>
     public class DesignThemeSettings : StateModel
     {
         #region Mode
