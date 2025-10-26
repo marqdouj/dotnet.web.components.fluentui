@@ -6,35 +6,62 @@
 				ResizeType="DataGridResizeType.Discrete"
 				GridTemplateColumns="@templateColumns"
 				GenerateHeader="GenerateHeaderOption.Sticky">
-	<PropertyColumn Property="@(p => p.NameDisplay)" Title="Name" Align="Align.Start" />
-	<PropertyColumn Property="@(p => p.FormatValue)" title="Value" Align="Align.Start" />
-	@if (WithDescription)
-	{
-		<PropertyColumn Property="@(p => p.Description)" Align="Align.Start" />
-	}
+	<ChildContent>
+		<PropertyColumn Property="@(p => p.NameDisplay)" Title="Name" Align="Align.Start" />
+		<PropertyColumn Property="@(p => p.FormatValue)" title="Value" Align="Align.Start" />
+		@if (WithDescription)
+		{
+			<PropertyColumn Property="@(p => p.Description)" Align="Align.Start" />
+		}
+	</ChildContent>
+	<EmptyContent>
+		@EmptyContent
+	</EmptyContent>
+		
 </FluentDataGrid>
 
-@code {
+		@code {
 	private IQueryable<IUIModelValue>? items => Items?.AsQueryable();
 	private string templateColumns => string.IsNullOrWhiteSpace(GridTemplateColumns)
 		? "200px 1fr 1fr"
 		: GridTemplateColumns;
 
+	/// <summary>
+	/// <see cref="FluentComponentBase.Class"/>
+	/// </summary>
 	[Parameter]
 	public string? Class { get; set; }
 
+	/// <summary>
+	/// <see cref="FluentDataGrid{TGridItem}.EmptyContent"/>
+	/// </summary>
+	[Parameter]
+	public RenderFragment? EmptyContent { get; set; }
+
+	/// <summary>
+	/// <see cref="FluentDataGrid{TGridItem}.GridTemplateColumns"/>
+	/// </summary>
 	[Parameter]
 	public string? GridTemplateColumns { get; set; }
 
+	/// <summary>
+	/// <see cref="FluentDataGrid{TGridItem}.MultiLine"/>
+	/// </summary>
 	[Parameter]
 	public bool MultiLine { get; set; } = true;
 
+	/// <summary>
+	/// <see cref="FluentComponentBase.Style"/>
+	/// </summary>
 	[Parameter]
 	public string? Style { get; set; }
 
 	[Parameter, EditorRequired]
 	public List<IUIModelValue> Items { get; set; }
 
+	/// <summary>
+	/// Indicates whether to show the description column.
+	/// </summary>
 	[Parameter]
 	public bool WithDescription { get; set; } = true;
 }

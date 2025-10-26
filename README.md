@@ -25,6 +25,9 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
   - `UIValuesGrid`: Displays the UIModel values as a grid.
 
 ## Release Notes
+- `10.0.0-Preview8.1`
+  - `UIValuesGrid`. Added `EmptyContent` parameter. Updated Xml comments.
+ 
 - `10.0.0-Preview8.0` (Breaking Changes)
   - `Themes`.
     - All Theme components and settings have been refactored.
