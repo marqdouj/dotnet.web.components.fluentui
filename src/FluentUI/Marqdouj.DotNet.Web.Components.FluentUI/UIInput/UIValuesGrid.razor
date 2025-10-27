@@ -1,14 +1,32 @@
 ﻿<FluentDataGrid Items="@items"
+				TGridItem="IUIModelValue"
 				Style="@Style"
 				Class="@Class"
+				DisplayMode="@DisplayMode"
 				MultiLine="@MultiLine"
-				ResizableColumns="true"
-				ResizeType="DataGridResizeType.Discrete"
+				OnRowClick="@OnRowClick"
+				OnRowDoubleClick="@OnRowDoubleClick"
+				OnRowFocus="@OnRowFocus"
+				ResizableColumns="@ResizableColumns"
+				ResizeType="@ResizeType"
+				ShowHover="@ShowHover"
 				GridTemplateColumns="@templateColumns"
-				GenerateHeader="GenerateHeaderOption.Sticky">
+				GenerateHeader="@GenerateHeader">
 	<ChildContent>
 		<PropertyColumn Property="@(p => p.NameDisplay)" Title="Name" Align="Align.Start" />
-		<PropertyColumn Property="@(p => p.FormatValue)" title="Value" Align="Align.Start" />
+
+		@{
+			switch (ValueProperty)
+			{
+				case UIValuesGridValueProperty.Formatted:
+					<PropertyColumn Property="@(p => p.FormatValue)" title="Value" Align="Align.Start" />
+					break;
+				case UIValuesGridValueProperty.Raw:
+				default:
+					<PropertyColumn Property="@(p => p.Value)" title="Value" Align="Align.Start" />
+					break;
+			}
+		}
 		@if (WithDescription)
 		{
 			<PropertyColumn Property="@(p => p.Description)" Align="Align.Start" />
@@ -20,10 +38,10 @@
 		
 </FluentDataGrid>
 
-		@code {
+@code {
 	private IQueryable<IUIModelValue>? items => Items?.AsQueryable();
 	private string templateColumns => string.IsNullOrWhiteSpace(GridTemplateColumns)
-		? "200px 1fr 1fr"
+		? DisplayMode == DataGridDisplayMode.Grid ? "200px 1fr 1fr" : ""
 		: GridTemplateColumns;
 
 	/// <summary>
@@ -33,10 +51,21 @@
 	public string? Class { get; set; }
 
 	/// <summary>
+	/// <see cref="FluentDataGrid{TGridItem}.DisplayMode"/>
+	/// </summary>
+	public DataGridDisplayMode DisplayMode { get; set; } = DataGridDisplayMode.Table;
+
+	/// <summary>
 	/// <see cref="FluentDataGrid{TGridItem}.EmptyContent"/>
 	/// </summary>
 	[Parameter]
 	public RenderFragment? EmptyContent { get; set; }
+
+	/// <summary>
+	/// <see cref="FluentDataGrid{TGridItem}.GenerateHeader"/>
+	/// </summary>
+	[Parameter]
+	public GenerateHeaderOption GenerateHeader { get; set; } = GenerateHeaderOption.Sticky;
 
 	/// <summary>
 	/// <see cref="FluentDataGrid{TGridItem}.GridTemplateColumns"/>
@@ -51,6 +80,23 @@
 	public bool MultiLine { get; set; } = true;
 
 	/// <summary>
+	/// <see cref="FluentDataGrid{TGridItem}.ResizableColumns"/>
+	/// </summary>
+	public bool ResizableColumns { get; set; } = true;
+
+	/// <summary>
+	/// <see cref="FluentDataGrid{TGridItem}.ResizeType"/>
+	/// </summary>
+	[Parameter]
+	public DataGridResizeType ResizeType { get; set; } = DataGridResizeType.Discrete;
+
+	/// <summary>
+	/// <see cref="FluentDataGrid{TGridItem}.ShowHover"/>
+	/// </summary>
+	[Parameter]
+	public bool ShowHover { get; set; }
+
+	/// <summary>
 	/// <see cref="FluentComponentBase.Style"/>
 	/// </summary>
 	[Parameter]
@@ -60,8 +106,48 @@
 	public List<IUIModelValue> Items { get; set; }
 
 	/// <summary>
+	/// <see cref="UIValuesGridValueProperty"/>
+	/// Defaults to <see cref="UIValuesGridValueProperty.Raw"/>
+	/// </summary>
+	[Parameter]
+	public UIValuesGridValueProperty ValueProperty { get; set; }
+
+	/// <summary>
 	/// Indicates whether to show the description column.
 	/// </summary>
 	[Parameter]
 	public bool WithDescription { get; set; } = true;
+
+	/// <summary>
+	/// <see cref="FluentDataGrid{TGridItem}.OnRowClick"/>
+	/// </summary>
+	[Parameter]
+	public EventCallback<IUIModelValue> OnRowClicked { get; set; }
+
+	/// <summary>
+	/// <see cref="FluentDataGrid{TGridItem}.OnRowDoubleClick"/>
+	/// </summary>
+	[Parameter]
+	public EventCallback<IUIModelValue> OnRowDoubleClicked { get; set; }
+
+	/// <summary>
+	/// <see cref="FluentDataGrid{TGridItem}.OnRowFocus"/>
+	/// </summary>
+	[Parameter]
+	public EventCallback<IUIModelValue> OnRowFocused { get; set; }
+
+	private async Task OnRowClick(FluentDataGridRow<IUIModelValue> args)
+    {
+		await OnRowClicked.InvokeAsync(args.Item);
+	}
+
+	private async Task OnRowDoubleClick(FluentDataGridRow<IUIModelValue> args)
+    {
+		await OnRowDoubleClicked.InvokeAsync(args.Item);
+    }
+
+	private async Task OnRowFocus(FluentDataGridRow<IUIModelValue> args)
+    {
+		await OnRowFocused.InvokeAsync(args.Item);
+	}
 }
