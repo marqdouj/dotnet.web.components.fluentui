@@ -2,16 +2,18 @@
 				TGridItem="IUIModelValue"
 				Style="@Style"
 				Class="@Class"
-				DisplayMode="@DisplayMode"
+				DisplayMode="@displayMode"
+				GenerateHeader="@generateHeader"
+				GridTemplateColumns="@GridTemplateColumns"
 				MultiLine="@MultiLine"
 				OnRowClick="@OnRowClick"
 				OnRowDoubleClick="@OnRowDoubleClick"
 				OnRowFocus="@OnRowFocus"
 				ResizableColumns="@ResizableColumns"
+				ResizeColumnOnAllRows="@ResizeColumnOnAllRows"
 				ResizeType="@ResizeType"
-				ShowHover="@ShowHover"
-				GridTemplateColumns="@templateColumns"
-				GenerateHeader="@GenerateHeader">
+				RowSize="@RowSize"
+				ShowHover="@ShowHover">
 	<ChildContent>
 		<PropertyColumn Property="@(p => p.NameDisplay)" Title="Name" Align="Align.Start" />
 
@@ -40,9 +42,8 @@
 
 @code {
 	private IQueryable<IUIModelValue>? items => Items?.AsQueryable();
-	private string templateColumns => string.IsNullOrWhiteSpace(GridTemplateColumns)
-		? DisplayMode == DataGridDisplayMode.Grid ? "200px 1fr 1fr" : ""
-		: GridTemplateColumns;
+	private DataGridDisplayMode displayMode;
+	private GenerateHeaderOption? generateHeader;
 
 	/// <summary>
 	/// <see cref="FluentComponentBase.Class"/>
@@ -52,8 +53,20 @@
 
 	/// <summary>
 	/// <see cref="FluentDataGrid{TGridItem}.DisplayMode"/>
+	/// Defaults to <see cref="DataGridDisplayMode.Table"/>.
 	/// </summary>
+	[Parameter]
 	public DataGridDisplayMode DisplayMode { get; set; } = DataGridDisplayMode.Table;
+
+	/// <summary>
+	/// The display mode to use when there are no items.
+	/// Depending on the <see cref="DisplayMode"/>, 
+	/// the header may be displayed differently when there are no items;
+	/// especially in Table mode, as the header is shown in the middle of the grid.
+	/// Defaults to <see cref="DataGridDisplayMode.Grid"/>.
+	/// </summary>
+	[Parameter]
+	public DataGridDisplayMode DisplayModeEmpty { get; set; }
 
 	/// <summary>
 	/// <see cref="FluentDataGrid{TGridItem}.EmptyContent"/>
@@ -62,10 +75,11 @@
 	public RenderFragment? EmptyContent { get; set; }
 
 	/// <summary>
-	/// <see cref="FluentDataGrid{TGridItem}.GenerateHeader"/>
+	/// <see cref="FluentDataGrid{TGridItem}.GenerateHeader"/>.
+	/// Defaults to <see cref="GenerateHeaderOption.Sticky"/>.
 	/// </summary>
 	[Parameter]
-	public GenerateHeaderOption GenerateHeader { get; set; } = GenerateHeaderOption.Sticky;
+	public GenerateHeaderOption? GenerateHeader { get; set; } = GenerateHeaderOption.Sticky;
 
 	/// <summary>
 	/// <see cref="FluentDataGrid{TGridItem}.GridTemplateColumns"/>
@@ -74,7 +88,8 @@
 	public string? GridTemplateColumns { get; set; }
 
 	/// <summary>
-	/// <see cref="FluentDataGrid{TGridItem}.MultiLine"/>
+	/// <see cref="FluentDataGrid{TGridItem}.MultiLine"/>.
+	/// Defaults to true.
 	/// </summary>
 	[Parameter]
 	public bool MultiLine { get; set; } = true;
@@ -82,13 +97,26 @@
 	/// <summary>
 	/// <see cref="FluentDataGrid{TGridItem}.ResizableColumns"/>
 	/// </summary>
-	public bool ResizableColumns { get; set; } = true;
+	[Parameter]
+	public bool ResizableColumns { get; set; }
+
+	/// <summary>
+	/// <see cref="FluentDataGrid{TGridItem}.ResizeColumnOnAllRows"/>
+	/// </summary>
+	[Parameter]
+	public bool ResizeColumnOnAllRows { get; set; } = true;
 
 	/// <summary>
 	/// <see cref="FluentDataGrid{TGridItem}.ResizeType"/>
 	/// </summary>
 	[Parameter]
-	public DataGridResizeType ResizeType { get; set; } = DataGridResizeType.Discrete;
+	public DataGridResizeType? ResizeType { get; set; }
+
+	/// <summary>
+	/// <see cref="FluentDataGrid{TGridItem}.RowSize"/>
+	/// </summary>
+	[Parameter]
+	public DataGridRowSize RowSize { get; set; } = DataGridRowSize.Small;
 
 	/// <summary>
 	/// <see cref="FluentDataGrid{TGridItem}.ShowHover"/>
@@ -137,17 +165,30 @@
 	public EventCallback<IUIModelValue> OnRowFocused { get; set; }
 
 	private async Task OnRowClick(FluentDataGridRow<IUIModelValue> args)
-    {
+	{
 		await OnRowClicked.InvokeAsync(args.Item);
 	}
 
 	private async Task OnRowDoubleClick(FluentDataGridRow<IUIModelValue> args)
-    {
+	{
 		await OnRowDoubleClicked.InvokeAsync(args.Item);
-    }
+	}
 
 	private async Task OnRowFocus(FluentDataGridRow<IUIModelValue> args)
-    {
+	{
 		await OnRowFocused.InvokeAsync(args.Item);
+	}
+
+	protected override void OnParametersSet()
+	{
+		displayMode = DisplayMode;
+		generateHeader = GenerateHeader;
+
+		// If there are no items, switch to DisplayModeEmpty.
+		var noItems = items == null || !items.Any();
+		if (noItems)
+		{
+			displayMode = DisplayModeEmpty;
+		}
 	}
 }

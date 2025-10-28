@@ -25,6 +25,13 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
   - `UIValuesGrid`: Displays the UIModel values as a grid.
 
 ## Release Notes
+- `10.0.0-rc-1.1`
+  - `UIValuesGrid`.
+    - `DisplayMode`.  Added missing [Parameter] tag.
+    - `ResizableColumns`.  Added missing [Parameter] tag.
+    - `DisplayModeEmpty`. New parameter. The DisplayMode to use when there are no items. Depending on your settings
+       the header might display in the middle of the grid when there are no items.
+
 - `10.0.0-rc-1.0`
   - `UIValuesGrid`. Refactored.
     - Added `OnRowClicked` event callback.
