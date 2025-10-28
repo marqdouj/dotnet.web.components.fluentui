@@ -25,6 +25,11 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
   - `UIValuesGrid`: Displays the UIModel values as a grid.
 
 ## Release Notes
+- `10.0.0-rc-1.2`
+  - `UIValuesGrid`.
+    - `TableTemplateColums` (New) . Space delimited string of valid Css column widths to apply when in Table display mode,
+       e.g. "100px 1fr 2fr".
+
 - `10.0.0-rc-1.1`
   - `UIValuesGrid`.
     - `DisplayMode`.  Added missing [Parameter] tag.

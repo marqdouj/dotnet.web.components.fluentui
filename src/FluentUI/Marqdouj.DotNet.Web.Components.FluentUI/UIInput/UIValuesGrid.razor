@@ -3,7 +3,7 @@
 				Style="@Style"
 				Class="@Class"
 				DisplayMode="@displayMode"
-				GenerateHeader="@generateHeader"
+				GenerateHeader="@GenerateHeader"
 				GridTemplateColumns="@GridTemplateColumns"
 				MultiLine="@MultiLine"
 				OnRowClick="@OnRowClick"
@@ -15,13 +15,13 @@
 				RowSize="@RowSize"
 				ShowHover="@ShowHover">
 	<ChildContent>
-		<PropertyColumn Property="@(p => p.NameDisplay)" Title="Name" Align="Align.Start" />
+		<PropertyColumn Property="@(p => p.NameDisplay)" Title="Name" Align="Align.Start" Width="@nameWidth" />
 
 		@{
 			switch (ValueProperty)
 			{
 				case UIValuesGridValueProperty.Formatted:
-					<PropertyColumn Property="@(p => p.FormatValue)" title="Value" Align="Align.Start" />
+					<PropertyColumn Property="@(p => p.FormatValue)" title="Value" Align="Align.Start" Width="@valueWidth" />
 					break;
 				case UIValuesGridValueProperty.Raw:
 				default:
@@ -31,7 +31,7 @@
 		}
 		@if (WithDescription)
 		{
-			<PropertyColumn Property="@(p => p.Description)" Align="Align.Start" />
+			<PropertyColumn Property="@(p => p.Description)" Align="Align.Start" Width="@descriptionWidth" />
 		}
 	</ChildContent>
 	<EmptyContent>
@@ -43,7 +43,9 @@
 @code {
 	private IQueryable<IUIModelValue>? items => Items?.AsQueryable();
 	private DataGridDisplayMode displayMode;
-	private GenerateHeaderOption? generateHeader;
+	private string? nameWidth = null;
+	private string? valueWidth = null;
+	private string? descriptionWidth = null;
 
 	/// <summary>
 	/// <see cref="FluentComponentBase.Class"/>
@@ -130,6 +132,13 @@
 	[Parameter]
 	public string? Style { get; set; }
 
+	/// <summary>
+	/// Space delimited string of valid Css column widths to apply when in Table display mode,
+	/// e.g. "100px 1fr 2fr".
+	/// </summary>
+	[Parameter]
+	public string? TableTemplateColumns { get; set; }
+
 	[Parameter, EditorRequired]
 	public List<IUIModelValue> Items { get; set; }
 
@@ -181,14 +190,46 @@
 
 	protected override void OnParametersSet()
 	{
-		displayMode = DisplayMode;
-		generateHeader = GenerateHeader;
-
 		// If there are no items, switch to DisplayModeEmpty.
-		var noItems = items == null || !items.Any();
-		if (noItems)
+		var noItems = Items == null || !Items.Any();
+		displayMode = noItems ? DisplayModeEmpty : DisplayMode;
+
+		if (string.IsNullOrWhiteSpace(TableTemplateColumns))
 		{
-			displayMode = DisplayModeEmpty;
+			nameWidth = null;
+			valueWidth = null;
+			descriptionWidth = null;
+		}
+		else 
+		{
+			string? newNameWidth = null;
+			string? newValueWidth = null;
+			string? newDescriptionWidth = null;
+			var widths = TableTemplateColumns!.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+			
+			for (int i = 0; i < widths.Length; i++)
+			{
+				switch (i)
+				{
+					case 0:
+						newNameWidth = widths[i];
+						break;
+					case 1:
+						newValueWidth = widths[i];
+						break;
+					case 2:
+						newDescriptionWidth = widths[i];
+						break;
+					default:
+						break;
+				}
+			}
+
+			nameWidth = newNameWidth;
+			valueWidth = newValueWidth;
+			descriptionWidth = newDescriptionWidth;
+
+			Console.WriteLine($"nameWidth: {nameWidth}, valueWidth: {valueWidth}, descriptionWidth: {descriptionWidth}");
 		}
 	}
 }
