@@ -25,6 +25,9 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
   - `UIValuesGrid`: Displays the UIModel values as a grid.
 
 ## Release Notes
+- `10.0.0-rc-1.3`
+  - Update NuGet packages.
+
 - `10.0.0-rc-1.2.1`
   - `UIValuesGrid`. Removed debug console write in OnParametersSet.
 
