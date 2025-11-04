@@ -85,7 +85,7 @@
 
         if (Colors == null)
         {
-            var colorNames = new HtmlColorNameCollection(Model.IsNullableValueType, "");
+            var colorNames = new HtmlColorNameCollection(Model.IsNullable, null);
             colors = colorNames.Items.Select(e => new Option<string>() { Text = e.NameDisplay, Value = e.Name }).ToList();
             return;
         }
