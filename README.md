@@ -25,7 +25,7 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
   - `UIValuesGrid`: Displays the UIModel values as a grid.
 
 ## Release Notes
-- `10.0.0-rc-2.0`
+- `10.0.0-rc-2.1`
   - `UIInput`.
     - `UIColor`. Changed default values: height:250px width:200px
     - `UISelect`. Changed default values: height:250px width:200px
