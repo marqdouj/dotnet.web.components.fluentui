@@ -27,8 +27,8 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
 ## Release Notes
 - `10.0.0-rc-2.2`
   - `UIInput`.
-    - `UIColor`. Default colors are now based on the new IUIModelValue. `Model.IsNullable` property
-      instead of ``Model.IsNullableValueType`; which fixes the issue where a default (null) value
+    - `UIColor`. Default colors are now based on the new `Model.IsNullable` property
+      instead of `Model.IsNullableValueType`; which fixes the issue where a default (null) value
       was not being added to the list, even if the underlying string property was nullable.
   - Update NuGet packages.
 
