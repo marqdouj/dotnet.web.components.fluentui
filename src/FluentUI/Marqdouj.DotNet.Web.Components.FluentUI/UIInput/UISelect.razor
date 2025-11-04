@@ -22,8 +22,8 @@
     private readonly string cssId = Guid.NewGuid().ToCssId();
     private UISelectOptions options = new();
     private SelectOptions selectOptions => options.SelectOptions!;
-    private string height => string.IsNullOrWhiteSpace(Height) ? "350px" : Height;
-    private string width => string.IsNullOrWhiteSpace(Width) ? "220px" : Width;
+    private string height => string.IsNullOrWhiteSpace(Height) ? "250px" : Height;
+    private string width => string.IsNullOrWhiteSpace(Width) ? "200px" : Width;
 
     /// <summary>
     /// <see cref="ListComponentBase{TOption}.Height"/>

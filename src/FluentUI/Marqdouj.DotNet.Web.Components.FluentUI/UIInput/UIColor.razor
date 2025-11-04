@@ -45,8 +45,8 @@
     private List<Option<string>> colors = [];
     private string selectedColor => string.IsNullOrWhiteSpace(Model.BindValue) ? "Transparent" : Model.BindValue;
     private string selectedColorStyle => $"height:1.25rem;width:1.25rem;border: solid 1px black;background-color:{selectedColor};";
-    private string height => string.IsNullOrWhiteSpace(Height) ? "350px" : Height;
-    private string width => string.IsNullOrWhiteSpace(Width) ? "220px" : Width;
+    private string height => string.IsNullOrWhiteSpace(Height) ? "250px" : Height;
+    private string width => string.IsNullOrWhiteSpace(Width) ? "200px" : Width;
 
     [Parameter]
     public IEnumerable<HtmlColorNameListItem>? Colors { get; set; }

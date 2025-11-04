@@ -26,6 +26,12 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
 
 ## Release Notes
 - `10.0.0-rc-2.0`
+  - `UIInput`.
+    - `UIColor`. Changed default values: height:250px width:200px
+    - `UISelect`. Changed default values: height:250px width:200px
+  - Update NuGet packages.
+
+- `10.0.0-rc-2.0`
   - Update NuGet packages.
 
 - `10.0.0-rc-1.2.1`
