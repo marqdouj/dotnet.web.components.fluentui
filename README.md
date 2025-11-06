@@ -3,7 +3,7 @@
 > NOTE: This is a new repository and is released as a Preview version.
 
 ## Summary
-C#  Components, classes, and extensions I find useful in my .NET FluenUI web-based projects.
+C#  Components, classes, and extensions I find useful in my .NET FluentUI web-based projects.
 
 ## Demo
 A demo of all my `DotNet` packages can be found [here](https://github.com/marqdouj/dotnet.demo).
