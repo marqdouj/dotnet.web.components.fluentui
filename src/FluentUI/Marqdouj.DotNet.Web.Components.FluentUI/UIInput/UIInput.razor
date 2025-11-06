@@ -1,28 +1,34 @@
-﻿<FluentStack Orientation="@Options.Orientation"
-             VerticalGap="@Options.VerticalGap"
-             HorizontalGap="@Options.HorizontalGap">
-    @if (Options.ShowLabel)
+﻿<FluentStack Orientation="@options.Orientation"
+             HorizontalAlignment="@options.HorizontalAlignment"
+             HorizontalGap="@options.HorizontalGap" 
+             VerticalGap="@options.VerticalGap" 
+             VerticalAlignment="@options.VerticalAlignment">
+    @if (options.ShowLabel)
     {
-        <FluentStack VerticalAlignment="VerticalAlignment.Center" HorizontalGap="3">
-            <FluentLabel>@Model.NameDisplay</FluentLabel>
-            @if (Options.ShowTooltip && Model.HasDescription)
+        <FluentLabel Style="@labelStyle">
+            @Model.NameDisplay
+            @if (options.ShowTooltip && Model.HasDescription)
             {
-                <FluentIcon Id="@iconId" Value="@Options.Icon" />
-                <FluentTooltip Anchor="@iconId"
-                               Delay="@Options.TooltipOptions?.Delay"
-                               MaxWidth="@Options.TooltipOptions?.MaxWidth"
-                               Position="Options.TooltipOptions?.Position">
+                var cssId = Guid.Empty.ToCssId();
+
+                <FluentIcon Id="@cssId" Value="@options.Icon" Style="@iconStyle" />
+                <FluentTooltip Anchor="@cssId"
+                               Delay="@options.TooltipOptions?.Delay"
+                               MaxWidth="@options.TooltipOptions?.MaxWidth"
+                               Position="options.TooltipOptions?.Position">
                     @Model.Description
                 </FluentTooltip>
             }
-        </FluentStack>
+        </FluentLabel>
     }
 
     @ChildContent
 </FluentStack>
 
 @code {
-    private readonly string iconId = Guid.NewGuid().ToCssId();
+    private UIInputOptions options = new();
+    private string labelStyle => $"margin-right:{@options.HorizontalGap ?? 3}px;";
+    private string iconStyle => $"margin-left:{@options.HorizontalGap ?? 3}px;white-space: nowrap;";
 
     [Parameter, EditorRequired]
     public RenderFragment ChildContent { get; set; }
@@ -30,6 +36,11 @@
     [Parameter, EditorRequired]
     public IUIModelValue Model { get; set; }
 
-    [Parameter, EditorRequired]
-    public UIInputOptions Options { get; set; }
+    [Parameter]
+    public UIInputOptions? Options { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        options = Options ?? new();
+    }
 }

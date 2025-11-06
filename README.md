@@ -25,6 +25,11 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
   - `UIValuesGrid`: Displays the UIModel values as a grid.
 
 ## Release Notes
+- `10.0.0-rc-2.3`
+  - `UIInput`.
+    - Fixed issue where the labels and input would not display properly when Orientation was Horizontal.
+    - Added HorizontalAlignment and VerticalAlignment options.
+
 - `10.0.0-rc-2.2`
   - `UIInput`.
     - `UIColor`. Default colors are now based on the new `Model.IsNullable` property
