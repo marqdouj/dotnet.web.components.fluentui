@@ -24,7 +24,15 @@ A demo of all my `DotNet` packages can be found [here](https://github.com/marqdo
   - `UIText`: Supports string, double, int32, and int64 binding.
   - `UIValuesGrid`: Displays the UIModel values as a grid.
 
+- **Models**
+  - `GridItemOptions`. Provides configuration options for customizing a grid item.
+    Useful for passing options to a component as a [Parameter].
+
 ## Release Notes
+- `10.0.0-rc-2.4`
+  - `Models`.
+    - `GridItemOptions`. New model.
+
 - `10.0.0-rc-2.3`
   - `UIInput`.
     - Fixed issue where the labels and input would not display properly when Orientation was Horizontal.
