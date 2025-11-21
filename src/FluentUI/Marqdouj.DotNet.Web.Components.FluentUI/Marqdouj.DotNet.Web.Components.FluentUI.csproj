@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageIcon>DMNuGet.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>10.0.0</Version>
+    <Version>10.0.1</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>C# Components, classes, and Extensions for FluentUI web-based projects</Title>
     <PackageProjectUrl>https://github.com/Marqdouj/DotNet.Web.Components.FluentUI</PackageProjectUrl>
@@ -37,7 +37,7 @@
 
   <ItemGroup>
     <PackageReference Include="Marqdouj.DotNet.General" Version="10.0.0" />
-    <PackageReference Include="Marqdouj.DotNet.Web.Components" Version="10.0.0" />
+    <PackageReference Include="Marqdouj.DotNet.Web.Components" Version="10.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.0" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.13.1" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.13.1" />
