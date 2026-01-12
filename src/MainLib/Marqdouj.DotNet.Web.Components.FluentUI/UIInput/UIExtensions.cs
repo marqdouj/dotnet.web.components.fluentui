@@ -42,14 +42,45 @@ namespace Marqdouj.DotNet.Web.Components.FluentUI.UIInput
         /// </param>
         /// <param name="defaultText">option text</param>
         /// <param name="defaultValue">options value</param>
+        /// <param name="underscoreReplacement">Replacement string for '_' in Enum name. Default is empty string.</param>
         /// <returns></returns>
-        public static List<Option<string>> GetEnumLookup<TEnum>(bool addDefault, string defaultText = "", string defaultValue = "") where TEnum : Enum
+        public static List<Option<string>> GetEnumLookup<TEnum>(
+            bool addDefault,
+            string defaultText = "",
+            string defaultValue = "",
+            string underscoreReplacement = "") where TEnum : Enum
         {
             var values = Enum.GetValues(typeof(TEnum)).Cast<TEnum>().Select(e => e.ToString());
-            var selectOptions = values.Select(e => new Option<string> { Text = e.Replace("_", ""), Value = e }).ToList();
+            var selectOptions = values.Select(e => new Option<string> { Text = e.Replace("_", underscoreReplacement), Value = e }).ToList();
 
             if (addDefault)
                 selectOptions.Insert(0, new () { Text = defaultText, Value = defaultValue });
+
+            return selectOptions;
+        }
+
+        /// <summary>
+        /// <see cref="GetEnumLookup{TEnum}(bool, string, string, string)"/>
+        /// </summary>
+        /// <typeparam name="TEnum"></typeparam>
+        /// <param name="items">Custom list of Enum</param>
+        /// <param name="addDefault"></param>
+        /// <param name="defaultText"></param>
+        /// <param name="defaultValue"></param>
+        /// <param name="underscoreReplacement"></param>
+        /// <returns></returns>
+        public static List<Option<string>> GetEnumLookup<TEnum>(
+            this IEnumerable<TEnum> items,
+            bool addDefault,
+            string defaultText = "",
+            string defaultValue = "",
+            string underscoreReplacement = "") where TEnum : Enum
+        {
+            var values = items.Select(e => e.ToString());
+            var selectOptions = values.Select(e => new Option<string> { Text = e.Replace("_", underscoreReplacement), Value = e }).ToList();
+
+            if (addDefault)
+                selectOptions.Insert(0, new() { Text = defaultText, Value = defaultValue });
 
             return selectOptions;
         }

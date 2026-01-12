@@ -27,6 +27,12 @@ A demo of this, and other of my `DotNet` packages, can be found [here](https://g
     Useful for passing options to a component as a [Parameter].
 
 ## Release Notes
+- `10.1.0`
+  - `UIInput.Extensions`.
+    - `GetEnumLookup`.
+      - `underscoreReplacement`. Added new parameter to indicate what value to replace '_' with in the Enum name.
+      - `Overload`. Added overload method that takes an existing IEnumerable and processes it.
+
 - `10.0.3` - `10.0.1`
   - Update NuGet packages.
 

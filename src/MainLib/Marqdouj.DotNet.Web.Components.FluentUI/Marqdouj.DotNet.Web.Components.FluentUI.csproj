@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageIcon>DMNuGet.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>10.0.3</Version>
+    <Version>10.1.0</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>C# Components, classes, and Extensions for FluentUI web-based projects</Title>
     <PackageProjectUrl>https://github.com/Marqdouj/DotNet.Web.Components.FluentUI</PackageProjectUrl>
@@ -41,10 +41,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.1" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.13.2" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.13.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>
