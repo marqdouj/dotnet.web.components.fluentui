@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.13.1" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.13.1" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.13.2" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.13.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\FluentUI\Marqdouj.DotNet.Web.Components.FluentUI\Marqdouj.DotNet.Web.Components.FluentUI.csproj" />
+    <ProjectReference Include="..\Marqdouj.DotNet.Web.Components.FluentUI\Marqdouj.DotNet.Web.Components.FluentUI.csproj" />
   </ItemGroup>
 </Project>

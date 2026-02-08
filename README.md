@@ -9,6 +9,11 @@ A demo of this, and other of my `DotNet` packages, can be found [here](https://g
 ## Features
 
 **Components**
+- **Buttons**
+  - `ToggleButton`.
+    - True/False state that changes when the button is clicked.
+    - True/False Icon for the current state.
+
 - [**Themes**](https://www.fluentui-blazor.net/DesignTheme)
   - **`ThemeColor`**: Component for selecting theme color.
   - **`ThemeMode`**: Component for selecting between system, light, and dark themes.
@@ -27,6 +32,9 @@ A demo of this, and other of my `DotNet` packages, can be found [here](https://g
     Useful for passing options to a component as a [Parameter].
 
 ## Release Notes
+- `10.2.0`
+  - `ToggleButton`. New component.
+
 - `10.1.2` - `10.1.1`
   - Update NuGet packages.
 

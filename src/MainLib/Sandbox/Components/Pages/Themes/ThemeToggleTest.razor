@@ -5,10 +5,13 @@
 
 <FluentLayout>
 	<FluentHeader>
-		ThemeToggle
+		<FluentStack>
+			ThemeToggle
+			<FluentSpacer/>
+			<ThemeToggle />
+		</FluentStack>
 	</FluentHeader>
 
-	<ThemeToggle />
 </FluentLayout>
 
 @code {

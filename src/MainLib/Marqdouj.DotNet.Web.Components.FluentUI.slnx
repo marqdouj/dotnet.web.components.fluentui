@@ -3,4 +3,5 @@
     <File Path=".editorconfig" />
   </Folder>
   <Project Path="Marqdouj.DotNet.Web.Components.FluentUI/Marqdouj.DotNet.Web.Components.FluentUI.csproj" />
+  <Project Path="Sandbox/Sandbox.csproj" Id="e53336ab-799d-4c40-924d-26b345261c6c" />
 </Solution>
