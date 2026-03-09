@@ -5,6 +5,16 @@ namespace Marqdouj.DotNet.Web.Components.FluentUI.UIInput
     public static class UIExtensions
     {
         /// <summary>
+        /// Helper method for <see cref="GetBoolLookup(bool, string, string)"/> that uses string instead of string?
+        /// </summary>
+        /// <param name="addDefault"></param>
+        /// <param name="defaultText"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public static List<Option<string>> GetBoolLookups(bool addDefault, string defaultText = "", string defaultValue = "") =>
+            [.. GetBoolLookup(addDefault, defaultText, defaultValue).Select(e => new Option<string>() { Text = e.Text, Value = e.Value })];
+
+        /// <summary>
         /// Creates a list of options representing boolean values, 
         /// suitable for use in selection controls.
         /// </summary>
