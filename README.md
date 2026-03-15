@@ -32,6 +32,9 @@ A demo of this, and other of my `DotNet` packages, can be found [here](https://g
     Useful for passing options to a component as a [Parameter].
 
 ## Release Notes
+- `10.2.5`
+  - Update NuGet packages.
+
 - `10.2.4`
   - `UIExtensions`.
     - `GetBoolLookups`. Added helper method for `GetBoolLookup` that uses string instead of string?
