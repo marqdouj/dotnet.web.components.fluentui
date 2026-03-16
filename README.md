@@ -32,6 +32,13 @@ A demo of this, and other of my `DotNet` packages, can be found [here](https://g
     Useful for passing options to a component as a [Parameter].
 
 ## Release Notes
+- `10.3.0`
+  - Update NuGet packages.
+  - `UIExtensions`.
+    - `ConvertToString(List<Option<string?>>)`. Converts to `List<Option<string>>`.
+    - `GetEnumLookup`.
+      - `useDisplayName`. New parameter flag that indicates to use the Display attribute name for the Text (if available). Default is true.
+
 - `10.2.5`
   - Update NuGet packages.
 
